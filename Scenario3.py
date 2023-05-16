@@ -1,3 +1,4 @@
+from struct import pack
 from FourRooms import FourRooms
 import numpy as np
 
@@ -15,7 +16,7 @@ def main():
     gTypes = ['EMPTY', 'RED', 'GREEN', 'BLUE']
 
     # Q-learning parameters
-    num_epochs = 75
+    num_epochs = 100
     learning_rate = 0.8
     discount_factor = 0.7
     epsilon = 0.5
@@ -27,6 +28,11 @@ def main():
     Q = np.zeros((num_states, num_actions))
 
     for epoch in range(num_epochs):
+
+        # Visitation order
+        redVisited = False
+        greenVisited = False
+        blueVisited = False
 
         numMoves = 0
         total_reward = 0
@@ -49,7 +55,14 @@ def main():
             numMoves += 1
             next_state = newPos
             next_state_index = next_state[1] * grid_width + next_state[0]
-            reward = 1 if gridType > 0 else 0
+
+            reward = 0
+
+            if (packages_remaining == 2):
+                reward = 1 if gridType > 0 else 0
+            
+            if (packages_remaining == 1):
+                reward = 1 if gridType > 0 else 0
 
             Q[current_state_index][action] += learning_rate * (
                     reward + discount_factor * np.max(Q[next_state_index]) - Q[current_state_index][action])

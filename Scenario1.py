@@ -15,7 +15,7 @@ def main():
     gTypes = ['EMPTY', 'RED', 'GREEN', 'BLUE']
 
     # Q-learning parameters
-    num_epochs = 25
+    num_epochs = 50
     learning_rate = 0.8
     discount_factor = 0.7
     epsilon = 0.5
@@ -59,7 +59,8 @@ def main():
         print("Epoch: {0}, Total Reward: {1}, Total Moves: {2}".format(epoch + 1, total_reward, numMoves))
         
         # Show Path
-        fourRoomsObj.showPath(-1)
+        if (numMoves<100):
+            fourRoomsObj.showPath(-1)
     
         # Reset the environment for a new epoch
         fourRoomsObj.newEpoch()
