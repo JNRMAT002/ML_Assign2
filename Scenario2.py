@@ -4,7 +4,7 @@ import numpy as np
 def main():
 
     # Create FourRooms Object
-    fourRoomsObj = FourRooms('simple')
+    fourRoomsObj = FourRooms('multi')
 
     actSeq = [FourRooms.LEFT, FourRooms.LEFT, FourRooms.LEFT,
               FourRooms.UP, FourRooms.UP, FourRooms.UP,
