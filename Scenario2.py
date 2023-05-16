@@ -15,10 +15,10 @@ def main():
     gTypes = ['EMPTY', 'RED', 'GREEN', 'BLUE']
 
     # Q-learning parameters
-    num_epochs = 20
-    learning_rate = 0.6
-    discount_factor = 0.8
-    epsilon = 0.8
+    num_epochs = 25
+    learning_rate = 0.8
+    discount_factor = 0.7
+    epsilon = 0.5
 
     # Initialize Q-table
     num_actions = 4
@@ -28,6 +28,7 @@ def main():
 
     for epoch in range(num_epochs):
 
+        numMoves = 0
         total_reward = 0
         isTerminal = False
 
@@ -41,7 +42,9 @@ def main():
                 action = np.argmax(Q[current_state_index])
 
             gridType, newPos, packages_remaining, isTerminal = fourRoomsObj.takeAction(action)
-            print("Agent took {0} action and moved to {1} of type {2}".format (aTypes[action], newPos, gTypes[gridType]))
+            # Uncomment line below to observe Agents moves.
+            # print("Agent took {0} action and moved to {1} of type {2}".format (aTypes[action], newPos, gTypes[gridType]))
+            numMoves += 1
             next_state = newPos
             next_state_index = next_state[1] * grid_width + next_state[0]
             reward = 1 if gridType > 0 else 0
@@ -51,7 +54,7 @@ def main():
 
             total_reward += reward
 
-        print("Epoch: {0}, Total Reward: {1}".format(epoch + 1, total_reward))
+        print("Epoch: {0}, Total Reward, Total Moves: {2}".format(epoch + 1, total_reward, numMoves))
         
         # Show Path
         fourRoomsObj.showPath(-1)
@@ -59,8 +62,7 @@ def main():
         # Reset the environment for a new epoch
         fourRoomsObj.newEpoch()
 
-        if (epsilon>0):
-            epsilon-=0.05
+        epsilon*=0.9
     
 
 
